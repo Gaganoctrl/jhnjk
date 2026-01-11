@@ -5,6 +5,7 @@
   <title>Poshan Survey – Household Form</title>
   <link rel="stylesheet" href="styles.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+   <script src="food-recommendations.js"></script>
 </head>
 <body class="bg">
   <header class="topbar">
@@ -122,6 +123,22 @@
         </table>
       </div>
     </section>
+    
+  <!-- Recommendations section -->
+  <section class="card" id="recommendationsSection" style="display: none;">
+    <h3>Food Recommendations</h3>
+    <div id="recommendationsContent">
+      <!-- filled by JS -->
+    </div>
+  </section>
+
+  <!-- Meal Plan section -->
+  <section class="card" id="mealPlanSection" style="display: none;">
+    <h3>Personalized Meal Plan</h3>
+    <div id="mealPlanContent">
+      <!-- filled by JS -->
+    </div>
+  </section>
   </main>
 
   <script src="app.js"></script>
