@@ -191,3 +191,96 @@ function updateHotspotsTable() {
     body.appendChild(tr);
   });
 }
+
+// ============================================
+// FOOD RECOMMENDATIONS INTEGRATION
+// ============================================
+
+// Display food recommendations after survey result
+function displayFoodRecommendations(status) {
+  const recommendations = generateRecommendations({}, status);
+  const mealPlan = generateMealPlan(status);
+  
+  const recSection = document.getElementById('recommendationsSection');
+  if (!recSection) return;
+  
+  recSection.style.display = 'block';
+  recSection.style.backgroundColor = recommendations.bgColor;
+  recSection.style.borderLeftColor = recommendations.borderColor;
+  
+  let foodHTML = recommendations.foods.map(food => `
+    <tr>
+      <td>${food.icon} ${food.food}</td>
+      <td>${food.quantity}</td>
+      <td>${food.cost}</td>
+    </tr>
+  `).join('');
+  
+  const html = `
+    <div class="recommendation-header">
+      <h3 style="margin: 0 0 10px 0;">${recommendations.priority}</h3>
+    </div>
+    <div class="recommendation-details">
+      <div class="meal-frequency">
+        <strong>📅 Recommended Meal Frequency:</strong>
+        <p>${recommendations.mealFrequency}</p>
+      </div>
+      <div class="foods-recommended">
+        <strong>🥘 Key Foods to Include:</strong>
+        <table class="foods-table">
+          <thead>
+            <tr><th>Food</th><th>Quantity</th><th>Cost</th></tr>
+          </thead>
+          <tbody>
+            ${foodHTML}
+          </tbody>
+        </table>
+      </div>
+      <div class="supplementation-note">
+        <strong>⚕️ Additional Guidance:</strong>
+        <p>${recommendations.supplementation}</p>
+      </div>
+      <div class="follow-up">
+        <strong>📆 Follow-up:</strong>
+        <p>Review in ${recommendations.followUpDays} days</p>
+      </div>
+    </div>
+  `;
+  
+  recSection.innerHTML = html;
+}
+
+// Display meal plan
+function displayMealPlanUI(status) {
+  const mealPlan = generateMealPlan(status);
+  const mealSection = document.getElementById('mealPlanSection');
+  
+  if (!mealSection) return;
+  
+  mealSection.style.display = 'block';
+  
+  const html = `
+    <h3>📋 Sample Daily Meal Plan</h3>
+    <div class="meal-plan-items">
+      <div class="meal-item"><strong>Breakfast:</strong> ${mealPlan.breakfast}</div>
+      <div class="meal-item"><strong>Mid-Morning:</strong> ${mealPlan.midMorning}</div>
+      <div class="meal-item"><strong>Lunch:</strong> ${mealPlan.lunch}</div>
+      <div class="meal-item"><strong>Afternoon Snack:</strong> ${mealPlan.afternoon}</div>
+      <div class="meal-item"><strong>Dinner:</strong> ${mealPlan.dinner}</div>
+    </div>
+    <p><em>💡 ${mealPlan.notes}</em></p>
+  `;
+  
+  mealSection.innerHTML = html;
+}
+
+// Hook into existing result display
+const originalUpdateHotspotsTable = updateHotspotsTable;
+updateHotspotsTable = function() {
+  originalUpdateHotspotsTable();
+  // After displaying results, show food recommendations
+  if (sessionStorage.getItem('lastChildStatus')) {
+    displayFoodRecommendations(sessionStorage.getItem('lastChildStatus'));
+    displayMealPlanUI(sessionStorage.getItem('lastChildStatus'));
+  }
+};
