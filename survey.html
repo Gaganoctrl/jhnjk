@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Poshan Survey – Household Form</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg">
+  <header class="topbar">
+    <h2>Poshan Survey – ASHA Dashboard</h2>
+    <button class="btn ghost" onclick="logout()">Logout</button>
+  </header>
+
+  <main class="main-grid">
+    <!-- Survey card -->
+    <section class="card">
+      <h3>Child Nutrition Survey</h3>
+      <form id="surveyForm">
+        <div class="grid-2">
+          <div>
+            <label for="wardNo">Ward Number</label>
+            <input type="number" id="wardNo" required min="1">
+          </div>
+          <div>
+            <label for="childId">Child Unique ID</label>
+            <input type="text" id="childId" required>
+          </div>
+        </div>
+
+        <div class="grid-3">
+          <div>
+            <label for="ageMonths">Age (months)</label>
+            <input type="number" id="ageMonths" required min="0" max="60">
+          </div>
+          <div>
+            <label for="weight">Weight (kg)</label>
+            <input type="number" id="weight" required step="0.1" min="0">
+          </div>
+          <div>
+            <label for="height">Height (cm)</label>
+            <input type="number" id="height" required step="0.1" min="0">
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div>
+            <label for="muac">MUAC (cm)</label>
+            <input type="number" id="muac" required step="0.1" min="0">
+          </div>
+          <div>
+            <label for="sex">Sex</label>
+            <select id="sex" required>
+              <option value="">Select</option>
+              <option value="M">Male</option>
+              <option value="F">Female</option>
+            </select>
+          </div>
+        </div>
+
+        <h4>Recent history</h4>
+        <div class="grid-2">
+          <div>
+            <label>Diarrhea or fever in last 2 weeks?</label>
+            <select id="illness" required>
+              <option value="">Select</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+          <div>
+            <label>Fully immunized for age?</label>
+            <select id="immunized" required>
+              <option value="">Select</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div>
+            <label for="mealsPerDay">Meals per day</label>
+            <input type="number" id="mealsPerDay" required min="0" max="10">
+          </div>
+          <div>
+            <label for="dietGroups">Food groups eaten yesterday</label>
+            <input type="number" id="dietGroups" required min="0" max="7">
+          </div>
+        </div>
+
+        <button type="submit" class="btn primary full">Submit Survey</button>
+      </form>
+    </section>
+
+    <!-- Analysis card -->
+    <section class="card">
+      <h3>Child Status & Ward Analysis</h3>
+      <div id="childStatus" class="status-card neutral">
+        <h4>Child Status</h4>
+        <p id="statusText">No data yet. Submit a survey.</p>
+      </div>
+
+      <div class="chart-wrapper">
+        <h4>Ward-wise Nutrition Overview</h4>
+        <canvas id="wardChart"></canvas>
+      </div>
+
+      <div class="hotspots">
+        <h4>Malnutrition Hotspots (by ward)</h4>
+        <table>
+          <thead>
+            <tr>
+              <th>Ward</th>
+              <th>Total Children</th>
+              <th>% Malnourished / At Risk</th>
+            </tr>
+          </thead>
+          <tbody id="hotspotBody">
+            <!-- filled by JS -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
