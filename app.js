@@ -56,6 +56,7 @@ function handleSurveySubmit() {
   const status = classifyChild({ ageMonths, weight, height, muac, illness, immunized, mealsPerDay, dietGroups });
 
   updateChildStatusUI(childId, status);
+   sessionStorage.setItem('lastChildStatus', status);
 
   // store for ward-level stats
   surveyData.push({ ward, status });
